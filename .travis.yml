@@ -2,20 +2,18 @@ sudo: false
 language: c
 os: linux
 install:
-  - set -e
-  - git clone https://github.com/nim-lang/Nim
-  - cd Nim
+  - git clone https://github.com/nim-lang/nim
+  - cd nim
   - git clone --depth 1 https://github.com/nim-lang/csources.git
   - cd csources
   - sh build.sh
-  - cd ..
-  - export PATH=$(pwd)/bin
-  - nim c koch
+  - cd ../
+  - bin/nim c koch
   - ./koch boot -d:release
-  - ./koch nimble
   - cd ..
 before_script:
   - set -e
-  - export PATH=$(pwd)/Nim/bin:$(pwd):$PATH
+  - export PATH=$(pwd)/nim/bin:$(pwd):$PATH
 script:
-  - nimble tests
+  - nim c --noNimblePath --path:nim c2nim.nim
+  - nim c -r testsuite/tester.nim
