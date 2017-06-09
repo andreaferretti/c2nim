@@ -19,6 +19,8 @@ proc pp(n: var PNode, stmtList: PNode = nil, idx: int = -1) =
       let m = newNodeI(nkAccQuoted, n.info)
       m.add n
       n = m
+    elif n.ident.s == "result":
+      n.ident.s = "res"
   of nkInfix, nkPrefix, nkPostfix:
     for i in 1.. < n.safeLen: pp(n.sons[i], stmtList, idx)
   of nkAccQuoted: discard
